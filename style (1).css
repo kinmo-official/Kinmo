@@ -1,0 +1,876 @@
+/* ==========================================================================
+   1. DESIGN SYSTEM & CUSTOM VARIABLES
+   ========================================================================== */
+:root {
+    /* Color Palette */
+    --color-primary: #07010F;
+    --color-secondary: #D60FFF;
+    --color-accent: #393939; /* Matte Premium Tint */
+    --color-dark-bg: #0A0A0A;
+    --color-card-bg: rgba(255, 255, 255, 0.03);
+    --color-glass-border: rgba(255, 255, 255, 0.08);
+    --color-text-muted: #A0A0A0;
+    
+    /* Typography */
+    --font-luxury: 'Cinzel', serif;
+    --font-clean: 'Montserrat', sans-serif;
+    
+    /* Animation Speeds */
+    --transition-slow: 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-medium: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-fast: 0.2s ease;
+}
+
+/* ==========================================================================
+   2. CORE RESETS & BASE STYLES
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    font-family: var(--font-clean);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    line-height: 1.6;
+    width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+}
+
+/* Reusable Section Headers */
+.section-header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.section-subtitle {
+    font-family: var(--font-clean);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color: var(--color-text-muted);
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-family: var(--font-luxury);
+    font-size: 2.5rem;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   3. PRELOADER & INITIAL ANIMATIONS
+   ========================================================================== */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-primary);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity var(--transition-slow), visibility var(--transition-slow);
+}
+
+.preloader-content {
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 90%;
+}
+
+.preloader-logo {
+    width: 260px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0;
+    animation: fadeInLogo 1.5s ease-out forwards;
+}
+
+.shimmer-line {
+    width: 0%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-secondary), transparent);
+    margin-top: 1.5rem;
+    animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes fadeInLogo {
+    0% { opacity: 0; transform: scale(0.95); filter: blur(4px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes shimmer {
+    0% { width: 0%; left: 0; margin-left: 0; }
+    50% { width: 100%; margin-left: 0; }
+    100% { width: 0%; margin-left: 100%; }
+}
+
+/* ==========================================================================
+   4. PREMIUM NAVIGATION
+   ========================================================================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    padding: 22px 0;
+    background: rgba(10, 10, 10, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all .4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.navbar.scrolled {
+    padding: 14px 0;
+    background: rgba(10, 10, 10, 0.75);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .35);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    z-index: 10000;
+}
+
+.brand-logo-img {
+    height: 26px;
+    width: auto;
+    object-fit: contain;
+    transition: height var(--transition-medium);
+}
+
+.navbar.scrolled .brand-logo-img {
+    height: 22px;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 3.5rem;
+    align-items: center;
+}
+
+.nav-link {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 400;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--color-secondary);
+    transition: width var(--transition-medium);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* Mobile Hamburger */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 10000;
+    padding: 4px;
+}
+
+.hamburger .bar {
+    width: 25px;
+    height: 1px;
+    background-color: var(--color-secondary);
+    transition: var(--transition-medium);
+}
+
+/* ==========================================================================
+   5. HERO SECTION
+   ========================================================================== */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(180deg, #0f0f0f 0%, #000000 100%);
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.6) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    width: 100%;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-logo-wrapper {
+    margin-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-brand-logo {
+    max-width: 380px;
+    width: 85%;
+    height: auto;
+    object-fit: contain;
+}
+
+.hero-tagline {
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 4px;
+    color: var(--color-text-muted);
+    margin-bottom: 3.5rem;
+}
+
+/* Premium Button */
+.btn-premium {
+    position: relative;
+    display: inline-block;
+    padding: 1.2rem 3.5rem;
+    border: 1px solid var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 0.85rem;
+    overflow: hidden;
+    background: transparent;
+    transition: border-color var(--transition-medium), color var(--transition-medium);
+    cursor: pointer;
+}
+
+.btn-premium::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: var(--color-secondary);
+    border-radius: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1), height 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
+    z-index: 1;
+}
+
+.btn-premium:hover {
+    color: var(--color-primary);
+}
+
+.btn-premium:hover::before {
+    width: 300%;
+    height: 300%;
+    opacity: 1;
+}
+
+.btn-text {
+    position: relative;
+    z-index: 2;
+}
+
+/* Scroll Indicator */
+
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    z-index: 2;
+}
+
+.scroll-text {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--color-text-muted);
+}
+
+.scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--color-secondary), transparent);
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    background-color: var(--color-text-muted);
+    animation: scrollDrop 2s ease-in-out infinite;
+}
+
+@keyframes scrollDrop {
+    0% { top: -30%; }
+    100% { top: 100%; }
+}
+
+/* ==========================================================================
+   6. ABOUT SECTION
+   ========================================================================== */
+.about-section {
+    padding: 10rem 0;
+    background-color: var(--color-dark-bg);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+}
+
+.story-lead {
+    font-family: var(--font-luxury);
+    font-size: 1.6rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.story-body {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    font-weight: 300;
+    text-align: justify;
+}
+
+.about-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.glass-card {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 3rem;
+    border-radius: 4px;
+    transition: transform var(--transition-medium), border-color var(--transition-medium), box-shadow var(--transition-medium);
+}
+
+.glass-card h3 {
+    font-family: var(--font-luxury);
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+.glass-card p {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   7. PRODUCTS SECTION
+   ========================================================================== */
+.products-section {
+    padding: 10rem 0;
+    background-color: var(--color-primary);
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+.product-card {
+    background-color: var(--color-dark-bg);
+    border: 1px solid var(--color-glass-border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform var(--transition-slow), box-shadow var(--transition-slow), border-color var(--transition-slow);
+}
+
+.product-img-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 135%;
+    background-color: #121212;
+    overflow: hidden;
+}
+
+.img-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, #161616 25%, #1d1d1d 25%, #1d1d1d 50%, #161616 50%, #161616 75%, #1d1d1d 75%, #1d1d1d 100%);
+    background-size: 40px 40px;
+    transition: transform var(--transition-slow);
+    opacity: 0.4;
+}
+
+.product-info {
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+
+.product-name {
+    font-family: var(--font-luxury);
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 0.75rem;
+}
+
+.product-desc {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    height: 40px;
+    overflow: hidden;
+}
+
+.btn-view-details {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--color-secondary);
+    font-family: var(--font-clean);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 0.5rem;
+    transition: color var(--transition-fast);
+}
+
+.btn-view-details::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 1px;
+    background-color: var(--color-text-muted);
+    transition: width var(--transition-medium), left var(--transition-medium);
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+}
+
+.product-card:hover .img-placeholder {
+    transform: scale(1.08);
+}
+
+.product-card:hover .btn-view-details::after {
+    width: 100%;
+    left: 0;
+    background-color: var(--color-secondary);
+}
+
+/* ==========================================================================
+   8. CONTACT SECTION & PRIVATE CONCIERGE
+   ========================================================================== */
+.contact-section {
+    padding: 10rem 0;
+    background-color: var(--color-dark-bg);
+}
+
+.contact-wrapper {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.contact-icons-row {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin: 4rem 0;
+    flex-wrap: wrap;
+}
+
+.contact-icon-circle {
+    width: 70px;
+    height: 70px;
+    aspect-ratio: 1/1;
+    border: 1px solid var(--color-glass-border);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    background: transparent;
+    transition: border-color var(--transition-medium), transform var(--transition-medium), box-shadow var(--transition-medium);
+}
+
+.contact-icon-circle:hover {
+    border-color: var(--color-secondary);
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    word-wrap: break-word;
+}
+
+.contact-email {
+    font-family: var(--font-luxury);
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    font-weight: 300;
+    transition: color var(--transition-fast);
+    word-break: break-all;
+}
+
+.contact-email:hover {
+    opacity: 0.8;
+}
+
+.contact-location {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   9. FOOTER
+   ========================================================================== */
+.footer {
+    padding: 5rem 0;
+    background-color: var(--color-primary);
+    border-top: 1px solid var(--color-glass-border);
+    width: 100%;
+}
+
+.footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+}
+
+.footer-logo-img {
+    height: 20px;
+    width: auto;
+    object-fit: contain;
+    filter: opacity(0.7);
+    transition: filter var(--transition-fast);
+}
+
+.footer-logo-img:hover {
+    filter: opacity(1);
+}
+
+.copyright {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--color-text-muted);
+}
+
+.footer-socials {
+    display: flex;
+    gap: 2rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.footer-socials a:hover {
+    color: var(--color-secondary);
+}
+
+/* ==========================================================================
+   10. HARDCORE SCROLL ANIMATION STATES
+   ========================================================================== */
+.fade-up-init {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.fade-up-trigger, .fade-left-trigger, .fade-right-trigger {
+    opacity: 0;
+    filter: blur(2px);
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), filter 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.fade-up-trigger { transform: translateY(60px); }
+.fade-left-trigger { transform: translateX(60px); }
+.fade-right-trigger { transform: translateX(-60px); }
+
+.animate-in {
+    opacity: 1 !important;
+    transform: translate(0) !important;
+    filter: blur(0) !important;
+}
+
+/* ==========================================================================
+   11. COMPREHENSIVE RESPONSIVENESS (MOBILE SYSTEMS & LOGO FIXES)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .container, .nav-container, .footer-container {
+        padding: 0 2rem;
+    }
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    .about-grid {
+        gap: 4rem;
+    }
+}
+
+@media (max-width: 720px) {
+    /* Safe Padding Adjustment for Small Viewports */
+    .container, .nav-container, .footer-container {
+        padding: 0 1.5rem;
+    }
+
+    .about-section, .products-section, .contact-section {
+        padding: 5rem 0;
+    }
+    
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 3.5rem;
+    }
+    
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .story-lead {
+        font-size: 1.35rem;
+        text-align: center;
+    }
+
+    .glass-card {
+        padding: 2rem;
+    }
+
+    /* Fixed Asset Scalings for Mobile Screen Real Estate */
+    .preloader-logo {
+        width: 180px;
+    }
+
+    .hero-brand-logo {
+        max-width: 260px;
+        width: 75%;
+    }
+
+    .brand-logo-img {
+        height: 20px;
+    }
+
+    .navbar.scrolled .brand-logo-img {
+        height: 18px;
+    }
+
+    .footer-logo-img {
+        height: 16px;
+    }
+    
+    .hero-tagline {
+        font-size: 0.9rem;
+        padding: 0 0.5rem;
+        letter-spacing: 2px;
+        margin-bottom: 2.5rem;
+    }
+
+    .contact-icons-row {
+        gap: 1.5rem;
+        margin: 2.5rem 0;
+    }
+
+    .contact-icon-circle {
+        width: 60px;
+        height: 60px;
+        font-size: 1.1rem;
+    }
+
+    .contact-email {
+        font-size: 1.25rem;
+        letter-spacing: 1px;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .footer-socials {
+        justify-content: center;
+    }
+
+    /* Mobile Navigation Drawer Fixes */
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 75%;
+        height: 100vh;
+        background-color: rgba(10, 10, 10, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2.5rem;
+        transition: right var(--transition-medium);
+        border-left: 1px solid var(--color-glass-border);
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+        background-color: var(--color-secondary);
+    }
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+        background-color: var(--color-secondary);
+    }
+}
+/* ==========================================================================
+   হিরো স্ক্রল ইন্ডিকেটর লোগো এক্সট্রা স্টাইলস
+   ========================================================================== */
+.scroll-logo-wrapper {
+    width: 150%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 220px; /* লেখার সাথে দূরত্ব নিখুঁত রাখার জন্য */
+}
+
+.scroll-logo {
+    width: 10032px; /* মার্জিত এবং ছোট লাক্সারি সাইজ */
+    height: auto;
+    object-fit: contain;
+    opacity: 100%; /* প্রিমিয়াম লুকের জন্য হালকা আবছা ভাব */
+    transition: opacity var(--transition-fast), transform var(--transition-medium);
+}
+
+/* মাউস হোভার করলে ইফেক্ট */
+.scroll-indicator:hover .scroll-logo {
+    opacity: 1;
+    transform: translateY(-3px); /* হালকা ওপরের দিকে ভেসে ওঠার ইফেক্ট */
+}
+
+/* মোবাইল রেসপন্সিভ ব্রেকপয়েন্ট */
+@media (max-width: 99999px) {
+    .scroll-logo {
+        width: 1024px; /* মোবাইল স্ক্রিনের জন্য সাইজ কিছুটা ছোট */
+    }
+}
